@@ -58,6 +58,7 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 .bar-call{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:20px;
   background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);font-size:15px;font-weight:800;text-decoration:none}
 .bar-call svg{width:16px;height:16px;fill:currentColor}
+.bar-num{display:none}
 @media (max-width:359px){.bar-nav a{padding:10px 5px;font-size:14px}.bar-call{padding:0 12px}.bar-call span{display:none}}
 
 /* notice line (hidden when empty) */
@@ -112,8 +113,10 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 .group h3{position:relative;isolation:isolate;display:inline-block;margin:0 0 12px;padding:8px 26px 7px;
   font:400 22px/1.15 var(--western);letter-spacing:.03em;text-transform:uppercase;color:var(--gold-hi);
   background:linear-gradient(180deg,var(--gold-hi),var(--gold-lo));
+  -webkit-clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%,12px 50%);
   clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%,12px 50%)}
-.group h3::before{content:"";position:absolute;inset:2px;z-index:-1;background:#0B0907;
+.group h3::before{content:"";position:absolute;top:2px;right:2px;bottom:2px;left:2px;z-index:-1;background:#0B0907;
+  -webkit-clip-path:polygon(0 0,100% 0,calc(100% - 11px) 50%,100% 100%,0 100%,11px 50%);
   clip-path:polygon(0 0,100% 0,calc(100% - 11px) 50%,100% 100%,0 100%,11px 50%)}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
   .group h3 span{background:linear-gradient(180deg,var(--gold-hi) 20%,var(--gold-lo) 88%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -164,6 +167,14 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 .field-row{display:grid;gap:0 14px}
 @media (min-width:520px){.field-row{grid-template-columns:1fr 1fr}}
 .cater-form .btn{width:100%;margin-top:22px}
+.btn-outline{border:2px solid var(--ink);background:transparent;color:var(--ink)}
+.btn-outline:hover{background:rgba(26,18,8,.06)}
+.sent{margin-top:18px;padding:16px;border-radius:12px;background:#F1E6C8}
+.sent[hidden]{display:none}
+.sent p{margin:0;max-width:none;font-size:15px}
+.sent textarea{width:100%;margin-top:12px;padding:10px;border:1.5px solid #B9A88A;border-radius:10px;background:#fff;color:#1F1A12;font:400 15px/1.4 'Libre Franklin',sans-serif;resize:vertical}
+.sent .btn{margin-top:12px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* visit */
 .visit{padding:64px 0}
@@ -194,6 +205,10 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 @media (min-width:600px){
   .bar-home span{display:inline}
   .bar-nav{gap:8px}
+}
+@media (min-width:1024px){
+  .bar-call span:first-of-type{display:none}
+  .bar-num{display:inline}
 }
 @media (min-width:820px){
   :root{--gut:40px}

@@ -51,22 +51,48 @@
     return [open, close];
   }
 
-  var hours = {};         // day number -> [open, close] in minutes after midnight
+  var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  // A dated row for a holiday or day off: "November 28, 2026", "Sat, Nov 28", "December 24 to 26"
+  // -> { year: 2026 or null, month: 10, day: 28, count: 1 }. A weekday row like "Saturday" -> null
+  function parseDate(label) {
+    var t = label.toLowerCase(), y = t.match(/\b(20\d\d)\b/);
+    t = t.replace(/\b20\d\d\b/g, ' ')
+      .replace(/\b(sunday|monday|tuesday|wednesday|thursday|friday|saturday|sun|mon|tues?|wed|thu(?:rs?)?|fri|sat)\b\.?/g, ' ')
+      .replace(/[.,]/g, ' ').replace(/\s+/g, ' ').trim();
+    var m = t.match(/^([a-z]+) (\d{1,2})(?: ?(?:to|through|thru|-|–) ?(?:([a-z]+) )?(\d{1,2}))?$/);
+    if (!m) return null;
+    var m1 = MONTHS.indexOf(m[1].slice(0, 3)), count = 1;
+    if (m1 < 0) return null;
+    if (m[4]) {
+      var m2 = m[3] ? MONTHS.indexOf(m[3].slice(0, 3)) : m1;
+      if (m2 < 0) return null;
+      count = Math.round((Date.UTC(m2 < m1 ? 2002 : 2001, m2, +m[4]) - Date.UTC(2001, m1, +m[2])) / 864e5) + 1;
+      if (count < 1 || count > 62) return null;
+    }
+    return { year: y ? +y[1] : null, month: m1, day: +m[2], count: count };
+  }
+
+  var hours = {};         // day of the week -> [open, close] in minutes after midnight
+  var special = [];       // dated rows: { row, date, span } (span is null when closed)
   var unreadable = false; // a time we can't read: show a neutral sign instead of guessing
-  var rows = [];          // [table row, day numbers] for the "Today" tag
+  var rows = [];          // [table row, days of the week] for the "Today" tag
   var table = document.getElementById('hours-table');
   if (table) {
     var trs = table.querySelectorAll('tbody tr');
     for (var r = 0; r < trs.length; r++) {
       var th = trs[r].querySelector('th'), td = trs[r].querySelector('td');
       if (!th || !td) continue;
-      var days = parseDays(th.textContent), span = parseHours(td.textContent);
-      rows.push([trs[r], days]);
+      var span = parseHours(td.textContent);
       if (!span) {
         if (/closed/i.test(td.textContent)) trs[r].classList.add('closed'); else unreadable = true;
-        continue;
       }
-      for (var k = 0; k < days.length; k++) hours[days[k]] = span;
+      var date = parseDate(th.textContent);
+      if (date) { special.push({ row: trs[r], date: date, span: span }); continue; }
+      var days = parseDays(th.textContent);
+      rows.push([trs[r], days]);
+      if (span) for (var k = 0; k < days.length; k++) hours[days[k]] = span;
     }
   }
 
@@ -79,11 +105,37 @@
     return out;
   }
   function now() {
-    var p = waterloo({ weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
+    var p = waterloo({ year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
     return {
-      day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday),
+      y: +p.year, m: +p.month - 1, d: +p.day,
+      dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday),
       min: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10)
     };
+  }
+  function addDays(t, n) {
+    var dt = new Date(Date.UTC(t.y, t.m, t.d + n));
+    return { y: dt.getUTCFullYear(), m: dt.getUTCMonth(), d: dt.getUTCDate(), dow: dt.getUTCDay() };
+  }
+  function dayKey(x) { return x.y + '-' + x.m + '-' + x.d; }
+
+  // Dated rows -> the actual days they cover. A row with no year means the nearest such date.
+  // Rows whose dates have passed are hidden from the table.
+  function datedDays(t) {
+    var map = {}, todayUTC = Date.UTC(t.y, t.m, t.d);
+    special.forEach(function (s) {
+      var y = s.date.year;
+      if (!y) {
+        y = t.y;
+        [t.y - 1, t.y + 1].forEach(function (c) {
+          if (Math.abs(Date.UTC(c, s.date.month, s.date.day) - todayUTC) < Math.abs(Date.UTC(y, s.date.month, s.date.day) - todayUTC)) y = c;
+        });
+      }
+      var start = { y: y, m: s.date.month, d: s.date.day }, last = addDays(start, s.date.count - 1);
+      s.row.hidden = Date.UTC(last.y, last.m, last.d) < todayUTC;
+      if (s.row.hidden) return;
+      for (var i = 0; i < s.date.count; i++) map[dayKey(addDays(start, i))] = s;
+    });
+    return map;
   }
 
   function fmt(m) {
@@ -126,25 +178,31 @@
   function render() {
     var sign = document.getElementById('sign');
     if (!sign) return;
-    var t = now(), today = hours[t.day];
+    var t = now(), dated = datedDays(t), todays = dated[dayKey(t)];
+    var hoursOn = function (day) { var s = dated[dayKey(day)]; return s ? s.span : hours[day.dow]; };
+    var today = hoursOn(t), closedToday = !!todays && !todays.span;
     var title = 'Hours', detail = 'See our hours below', open = false;
     if (unreadable) {
       // leave the neutral "Hours / See our hours below"
     } else if (today && t.min >= today[0] && t.min < today[1]) {
       open = true; title = 'Open now'; detail = 'Today until ' + fmt(today[1]);
     } else {
-      for (var i = 0; i < 8; i++) {
-        var d = (t.day + i) % 7, h = hours[d];
+      if (closedToday) title = 'Closed today';
+      for (var i = 0; i < 15; i++) {
+        var day = addDays(t, i), h = hoursOn(day);
         if (!h || (i === 0 && t.min >= h[0])) continue;
-        title = 'Closed right now';
-        detail = 'Opens ' + (i === 0 ? 'today' : i === 1 ? 'tomorrow' : NAMES[d]) + ' at ' + fmt(h[0]);
+        var when = i === 0 ? 'today' : i === 1 ? 'tomorrow' : i < 7 ? NAMES[day.dow] : NAMES[day.dow] + ', ' + MONTH_NAMES[day.m] + ' ' + day.d;
+        if (!closedToday) title = 'Closed right now';
+        detail = 'Opens ' + when + ' at ' + fmt(h[0]);
         break;
       }
     }
     sign.classList.toggle('is-open', open);
     document.getElementById('status-title').textContent = title;
     document.getElementById('status-detail').textContent = detail;
-    for (var j = 0; j < rows.length; j++) rows[j][0].classList.toggle('today', rows[j][1].indexOf(t.day) > -1);
+    // "Today" tag: the dated row when there is one for today, otherwise the weekday row
+    for (var j = 0; j < rows.length; j++) rows[j][0].classList.toggle('today', !todays && rows[j][1].indexOf(t.dow) > -1);
+    special.forEach(function (s) { s.row.classList.toggle('today', s === todays); });
   }
   render();
   setInterval(render, 60000);
@@ -205,8 +263,22 @@
         if (field('c-where').value.trim()) lines.push('Where: ' + field('c-where').value.trim());
         if (field('c-what').value.trim()) lines.push('', "What we'd like:", field('c-what').value.trim());
         var subject = 'Catering request: ' + pretty(date.value, { month: 'short', day: 'numeric' }) + ', ' + field('c-people').value + ' people';
+        // Show the request on the page too, for computers with no email app set up
+        var sent = field('cater-sent'), text = field('cater-text');
+        if (sent && text) {
+          text.value = 'Subject: ' + subject + '\n\n' + lines.join('\n');
+          sent.hidden = false;
+          field('cater-copy').textContent = 'Copy my request';
+        }
         window.location.href = 'mailto:' + form.getAttribute('data-email') +
           '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+      });
+      var copy = field('cater-copy');
+      if (copy) copy.addEventListener('click', function () {
+        var text = field('cater-text'), done = function () { copy.textContent = 'Copied. Paste it into an email.'; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text.value).then(done, function () { text.select(); document.execCommand('copy'); done(); });
+        } else { text.select(); document.execCommand('copy'); done(); }
       });
     }
   } catch (e) {}
