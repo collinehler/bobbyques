@@ -40,9 +40,9 @@ img,svg{display:block;max-width:100%}
 /* Section titles: the same Western lettering and gold as the logo,
    bright gold at the top of each line and bronze at the bottom. */
 h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02em;text-transform:uppercase;text-wrap:balance}
-.board h2,.about h2,.visit h2{color:var(--gold-hi)}
+.board h2,.reviews h2,.about h2,.visit h2{color:var(--gold-hi)}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .board h2,.about h2,.visit h2{background:linear-gradient(180deg,var(--gold-hi) 22%,var(--gold-lo) 84%) 0 0/100% 1.05em;
+  .board h2,.reviews h2,.about h2,.visit h2{background:linear-gradient(180deg,var(--gold-hi) 22%,var(--gold-lo) 84%) 0 0/100% 1.05em;
     -webkit-background-clip:text;background-clip:text;color:transparent}
 }
 
@@ -55,6 +55,7 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 .bar-nav{display:flex}
 .bar-nav a{padding:10px 7px;font-size:15px;font-weight:600;text-decoration:none;color:var(--bone)}
 .bar-nav a:hover{color:var(--gold-hi)}
+.bar-nav a.bar-wide{display:none}
 .bar-call{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:20px;
   background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);font-size:15px;font-weight:800;text-decoration:none}
 .bar-call svg{width:16px;height:16px;fill:currentColor}
@@ -95,8 +96,11 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 .btn-dark{background:var(--ink);color:var(--bone)}
 .btn-dark:hover{background:#000}
 
-/* quote under the top of the page */
-.praise{margin-top:48px;text-align:center}
+/* reviews */
+.reviews{padding:60px 0 64px;text-align:center;border-bottom:1px solid rgba(202,174,46,.25)}
+.reviews-ask{max-width:34ch;margin:30px auto 0;font-size:18px}
+.reviews .actions{justify-content:center}
+.praise{margin:26px 0 0;text-align:center}
 .praise::before{content:"";display:block;width:72px;height:3px;margin:0 auto 22px;background:linear-gradient(90deg,var(--gold-lo),var(--gold-hi),var(--gold-lo))}
 .praise blockquote{margin:0}
 .praise p{margin:0 auto;max-width:24ch;font:400 clamp(24px,5.6vw,34px)/1.2 var(--western);color:var(--bone);text-wrap:balance}
@@ -205,6 +209,7 @@ h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02
 @media (min-width:600px){
   .bar-home span{display:inline}
   .bar-nav{gap:8px}
+  .bar-nav a.bar-wide{display:inline}
 }
 @media (min-width:1024px){
   .bar-call span:first-of-type{display:none}
