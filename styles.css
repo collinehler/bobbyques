@@ -11,69 +11,113 @@
 :root{
   /* Colors from the logo */
   --pit:#000000;       /* the logo's black */
-  --pit-2:#15110E;     /* menu board: a slightly lifted black */
+  --pit-2:#15110E;     /* menu board and boxes: a slightly lifted black */
   --gold-hi:#CAAE2E;   /* top of the logo's gold lettering */
   --gold:#B48C2C;      /* middle of the gold */
   --gold-lo:#A16C29;   /* bottom of the gold, where it turns bronze */
   --bone:#F7F3EC;      /* main text, close to the logo's white */
   --ash:#B5A79C;       /* softer text */
   --ink:#1A1208;       /* text on gold */
-  --wrap:1120px; --gut:20px;
+  --western:'Sancreek',Georgia,serif;
+  --wrap:1120px; --gut:20px; --bar:60px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--bar) + 12px)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:var(--pit);color:var(--bone);font:400 17px/1.55 'Libre Franklin',system-ui,sans-serif}
 a{color:inherit}
+a[href^="tel:"]{white-space:nowrap}
 p{text-wrap:pretty}
 img,svg{display:block;max-width:100%}
 :focus-visible{outline:3px solid var(--gold-hi);outline-offset:3px;border-radius:4px}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.skip{position:absolute;left:-9999px;top:8px;z-index:100;padding:10px 14px;border-radius:8px;background:var(--gold-hi);color:var(--ink);font-weight:800}
+.skip:focus{left:8px}
 
 .concept{background:#fff;color:#333;font:13px/1.4 system-ui,sans-serif;padding:8px var(--gut);text-align:center;border-bottom:1px dashed #bbb}
 
-/* Headings use the same Western lettering and gold as the logo:
-   bright gold at the top of each line, bronze at the bottom. */
-.board h2,.dark h2,.cater h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 'Sancreek',Georgia,serif;letter-spacing:.02em;text-transform:uppercase}
-.group h3{margin:0 0 10px;font:400 24px/1.2 'Sancreek',Georgia,serif;letter-spacing:.02em;text-transform:uppercase}
-.board h2,.dark h2,.group h3{color:var(--gold-hi)}
+/* Section titles: the same Western lettering and gold as the logo,
+   bright gold at the top of each line and bronze at the bottom. */
+h2{margin:0;font:400 clamp(34px,8vw,52px)/1.05 var(--western);letter-spacing:.02em;text-transform:uppercase;text-wrap:balance}
+.board h2,.about h2,.visit h2{color:var(--gold-hi)}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .board h2,.dark h2{background:linear-gradient(180deg,var(--gold-hi) 22%,var(--gold-lo) 84%) 0 0/100% 1.05em;
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .group h3{background:linear-gradient(180deg,var(--gold-hi) 22%,var(--gold-lo) 84%) 0 0/100% 1.2em;
+  .board h2,.about h2,.visit h2{background:linear-gradient(180deg,var(--gold-hi) 22%,var(--gold-lo) 84%) 0 0/100% 1.05em;
     -webkit-background-clip:text;background-clip:text;color:transparent}
 }
 
-/* hero */
-.hero{position:relative;overflow:hidden;padding:30px 0 56px;
-  background:radial-gradient(75% 34% at 50% 24%,rgba(202,174,46,.12),rgba(202,174,46,0) 72%),var(--pit)}
-.hero-grid{position:relative;display:grid;gap:22px}
+/* top bar */
+.bar{position:sticky;top:0;z-index:50;background:var(--pit);border-bottom:1px solid rgba(202,174,46,.35)}
+.bar-row{display:flex;align-items:center;gap:10px;height:var(--bar)}
+.bar-home{display:flex;align-items:center;gap:10px;margin-right:auto;text-decoration:none}
+.bar-home img{width:auto;height:36px}
+.bar-home span{display:none;font:400 22px/1 var(--western);letter-spacing:.03em;text-transform:uppercase;color:var(--gold-hi)}
+.bar-nav{display:flex}
+.bar-nav a{padding:10px 7px;font-size:15px;font-weight:600;text-decoration:none;color:var(--bone)}
+.bar-nav a:hover{color:var(--gold-hi)}
+.bar-call{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:20px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);font-size:15px;font-weight:800;text-decoration:none}
+.bar-call svg{width:16px;height:16px;fill:currentColor}
+@media (max-width:359px){.bar-nav a{padding:10px 5px;font-size:14px}.bar-call{padding:0 12px}.bar-call span{display:none}}
+
+/* notice line (hidden when empty) */
+.notice{margin:0;padding:10px var(--gut);background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);font-weight:700;text-align:center}
+.notice:empty,.notice[hidden]{display:none}
+
+/* top of the page */
+.hero{position:relative;overflow:hidden;padding:28px 0 52px;
+  background:radial-gradient(75% 30% at 50% 22%,rgba(202,174,46,.12),rgba(202,174,46,0) 72%),var(--pit)}
+.hero-grid{display:grid;gap:22px}
 .logo{margin:0}
 .logo img{width:min(100%,280px);height:auto;margin:0 auto}
-.lede{margin:0 auto;max-width:30ch;font-size:19px;color:var(--bone);text-align:center;text-wrap:balance}
+.lede{margin:0 auto;max-width:31ch;font-size:19px;text-align:center;text-wrap:balance}
 
-.sign{margin-top:26px;border:2px solid rgba(180,140,44,.6);border-radius:14px;padding:22px 22px 20px;background:rgba(30,24,19,.9);
+.sign{margin-top:24px;padding:22px 22px 20px;border:2px solid rgba(180,140,44,.6);border-radius:14px;background:rgba(30,24,19,.9);
   box-shadow:0 0 0 6px rgba(0,0,0,.25) inset}
 .status{display:flex;gap:16px;align-items:center}
 .lamp{flex:none;width:22px;height:22px;border-radius:50%;background:#5b514b;box-shadow:inset 0 -3px 5px rgba(0,0,0,.5)}
 .sign.is-open .lamp{background:radial-gradient(circle at 40% 35%,#FFF4C4 0 16%,var(--gold-hi) 56%,var(--gold) 100%);
   box-shadow:0 0 18px 4px rgba(202,174,46,.55),inset 0 -3px 5px rgba(0,0,0,.2)}
-.status-title{margin:0;font:400 30px/1.1 'Sancreek',Georgia,serif;color:var(--bone)}
+.status-title{margin:0;font:400 30px/1.1 var(--western);color:var(--bone)}
 .status-detail{margin:4px 0 0;color:var(--ash);font-size:17px}
-.sign-hours{margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(181,167,156,.25);font-size:15px;color:var(--ash)}
+.sign-week{margin:16px 0 0;font-weight:600;color:var(--bone)}
+.sign-hours{margin:14px 0 0;padding-top:14px;border-top:1px solid rgba(181,167,156,.25);font-size:15px;color:var(--ash)}
 .sign-hours a{color:var(--gold-hi)}
+
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border-radius:10px;
-  font:800 17px/1 'Libre Franklin',sans-serif;text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border:0;border-radius:10px;
+  font:800 17px/1 'Libre Franklin',sans-serif;text-decoration:none;cursor:pointer}
 .btn-gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink)}
 .btn-gold:hover{filter:brightness(1.08)}
 .btn-line{border:2px solid rgba(247,243,236,.5);color:var(--bone)}
 .btn-line:hover{border-color:var(--bone)}
+.btn-dark{background:var(--ink);color:var(--bone)}
+.btn-dark:hover{background:#000}
+
+/* quote under the top of the page */
+.praise{margin-top:48px;text-align:center}
+.praise::before{content:"";display:block;width:72px;height:3px;margin:0 auto 22px;background:linear-gradient(90deg,var(--gold-lo),var(--gold-hi),var(--gold-lo))}
+.praise blockquote{margin:0}
+.praise p{margin:0 auto;max-width:24ch;font:400 clamp(24px,5.6vw,34px)/1.2 var(--western);color:var(--bone);text-wrap:balance}
+.praise figcaption{margin-top:12px;color:var(--ash);font-size:15px}
+.praise a{color:var(--gold-hi)}
 
 /* menu board */
-.board{background:var(--pit-2);padding:64px 0 68px;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold);
+.board{background:var(--pit-2);padding:60px 0 64px;border-top:4px solid var(--gold);border-bottom:4px solid var(--gold);
   border-image:linear-gradient(90deg,var(--gold-lo),var(--gold-hi) 50%,var(--gold-lo)) 1}
-.menu{display:grid;gap:36px;margin-top:30px}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.jump a{padding:8px 13px;border:1px solid rgba(202,174,46,.55);border-radius:20px;font-size:14.5px;font-weight:600;text-decoration:none;color:var(--gold-hi)}
+.menu{display:grid;gap:34px;margin-top:30px}
+/* category titles look like the ribbons on Bobby's menu board */
+.group h3{position:relative;isolation:isolate;display:inline-block;margin:0 0 12px;padding:8px 26px 7px;
+  font:400 22px/1.15 var(--western);letter-spacing:.03em;text-transform:uppercase;color:var(--gold-hi);
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold-lo));
+  clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%,12px 50%)}
+.group h3::before{content:"";position:absolute;inset:2px;z-index:-1;background:#0B0907;
+  clip-path:polygon(0 0,100% 0,calc(100% - 11px) 50%,100% 100%,0 100%,11px 50%)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .group h3 span{background:linear-gradient(180deg,var(--gold-hi) 20%,var(--gold-lo) 88%);-webkit-background-clip:text;background-clip:text;color:transparent}
+}
 .menu ul{list-style:none;margin:0;padding:0}
 .menu li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:9px 0;border-bottom:1px dashed rgba(181,167,156,.28);font-size:17.5px}
 .menu li span{font-weight:600}
@@ -82,61 +126,86 @@ img,svg{display:block;max-width:100%}
 .menu li b i{display:block;font-style:normal}
 .note{margin:10px 0 0;font-size:15.5px;color:var(--ash)}
 .group .note:first-of-type{margin:0 0 6px}
+.menu-note{margin:40px 0 0;font-weight:600;color:var(--bone)}
 /* On wider screens the menu sections flow down columns, like a menu board, so there are no big gaps */
 @media (min-width:600px){
   .menu{display:block;columns:2;column-gap:40px}
   .group{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;margin-bottom:40px}
 }
-.menu-note{margin:40px 0 0;font-weight:600;color:var(--bone)}
 
-/* dark sections */
-.dark{padding:72px 0}
-.hours-grid{display:grid;gap:40px}
-.hours{width:100%;border-collapse:collapse;margin-top:22px;font-size:18px}
-.hours th{text-align:left;font-weight:600;padding:12px 0;width:44%}
+/* about us */
+.about{padding:64px 0 60px}
+.about-grid{display:grid;gap:34px}
+.about p{max-width:42ch;margin:18px 0 0;font-size:19px}
+.pull{margin:0;padding:6px 0 0 22px;border-left:4px solid var(--gold)}
+.pull blockquote{margin:0}
+.pull p{margin:0;font:400 clamp(26px,6vw,36px)/1.2 var(--western);color:var(--bone)}
+.pull figcaption{margin-top:14px;color:var(--ash);font-size:16px}
+
+/* catering */
+.cater{padding:64px 0;background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink)}
+.cater h2{max-width:20ch}
+.cater-grid{display:grid;gap:36px}
+.cater p{max-width:44ch;margin:18px 0 0;font-size:19px}
+.cater .cater-strong{font-weight:800}
+.events{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 0;padding:0;list-style:none}
+.events li{padding:10px 16px;border:2px solid rgba(26,18,8,.55);border-radius:40px;font-weight:600}
+.events li.any{background:var(--ink);color:var(--gold-hi);border-color:var(--ink)}
+.cater-form{padding:24px 20px 22px;border-radius:16px;background:#FBF7EE;color:#1F1A12;box-shadow:0 12px 32px rgba(60,40,0,.28)}
+.cater-form h3{margin:0;font:400 28px/1.1 var(--western);letter-spacing:.02em;text-transform:uppercase;color:var(--ink)}
+.cater-form .form-help{margin:8px 0 0;max-width:none;font-size:15px;color:#5A4B33}
+.cater-form .form-help a{color:var(--ink);font-weight:700}
+.field{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.field label{font-size:15px;font-weight:700}
+.field label span{font-weight:400;color:#6B5B40}
+.field input,.field textarea{width:100%;min-height:48px;padding:11px 12px;border:1.5px solid #B9A88A;border-radius:10px;background:#fff;color:#1F1A12;font:400 17px/1.3 'Libre Franklin',sans-serif}
+.field textarea{resize:vertical}
+.field input:focus,.field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--ink)}
+.field-row{display:grid;gap:0 14px}
+@media (min-width:520px){.field-row{grid-template-columns:1fr 1fr}}
+.cater-form .btn{width:100%;margin-top:22px}
+
+/* visit */
+.visit{padding:64px 0}
+.tip{max-width:40ch;margin:22px 0 0;color:var(--ash)}
+.tip + .tip{margin-top:12px}
+.visit-grid{display:grid;gap:40px}
+.addr{margin:18px 0 0;font:400 clamp(26px,6vw,34px)/1.2 var(--western);color:var(--bone)}
+.hours-h{margin:0;font:400 28px/1.1 var(--western);letter-spacing:.02em;text-transform:uppercase;color:var(--gold-hi)}
+.hours{width:100%;margin-top:14px;border-collapse:collapse;font-size:18px}
+.hours th{width:44%;padding:12px 0;text-align:left;font-weight:600}
 .hours td{padding:12px 0;color:var(--ash)}
 .hours tr{border-bottom:1px solid rgba(181,167,156,.2)}
 .hours tr.closed td{font-style:italic}
-.hours-note{margin:18px 0 0;color:var(--ash);font-size:16px;max-width:40ch}
-.hours-note a{color:var(--gold-hi)}
 .hours tr.today th,.hours tr.today td{color:var(--gold-hi)}
 .hours tr.today td::after{content:"Today";margin-left:10px;padding:2px 8px;border-radius:20px;background:var(--gold-hi);color:var(--ink);font:800 12px/1.4 'Libre Franklin',sans-serif;vertical-align:2px}
-.quote{margin:0;padding:6px 0 0 22px;border-left:4px solid var(--gold)}
-.quote p{margin:0;font:400 clamp(26px,6vw,36px)/1.2 'Sancreek',Georgia,serif;color:var(--bone)}
-.quote footer{margin-top:16px;color:var(--ash);font-size:16px}
-.quote footer a{color:var(--gold-hi)}
+.hours-note{max-width:40ch;margin:18px 0 0;color:var(--ash);font-size:16px}
+.hours-note a{color:var(--gold-hi)}
 
-.about{padding-bottom:20px}
-.about p{max-width:42ch;font-size:19px;margin:18px 0 0}
-.about + .dark{padding-top:40px}
-
-/* catering */
-.cater{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);padding:68px 0}
-.cater h2{max-width:20ch}
-.cater p{max-width:44ch;font-size:19px;margin:18px 0 0}
-.events{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:26px 0 0;padding:0}
-.events li{padding:10px 16px;border:2px solid rgba(26,18,8,.55);border-radius:40px;font-weight:600}
-.events li.any{background:var(--ink);color:var(--gold-hi);border-color:var(--ink)}
-.cater .actions .btn-dark{background:var(--ink);color:var(--bone)}
-.cater .actions .btn-dark:hover{background:#000}
-.cater .actions .btn-line{border-color:var(--ink);color:var(--ink)}
-
-/* visit */
-.visit-grid{display:grid;gap:30px}
-.addr{margin:18px 0 0;font:400 clamp(26px,6vw,34px)/1.2 'Sancreek',Georgia,serif}
-.visit p{max-width:44ch;color:var(--ash)}
-.foot{padding:34px 0 46px;border-top:1px solid rgba(181,167,156,.2);color:var(--ash);font-size:15px}
-h1,h2{text-wrap:balance}
+/* footer */
+.foot{padding:36px 0 48px;border-top:1px solid rgba(181,167,156,.2);color:var(--ash);font-size:15px}
+.foot-grid{display:grid;gap:18px}
+.foot p{margin:0}
 .foot a{color:var(--gold-hi)}
-.foot .row{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+.foot-brand{display:flex;align-items:center;gap:12px}
+.foot-brand img{width:auto;height:40px}
+.foot-name{font:400 22px/1.1 var(--western);letter-spacing:.03em;text-transform:uppercase;color:var(--gold-hi)}
 
+@media (min-width:600px){
+  .bar-home span{display:inline}
+  .bar-nav{gap:8px}
+}
 @media (min-width:820px){
   :root{--gut:40px}
-  .hero{padding:60px 0 84px;
-    background:radial-gradient(38% 62% at 27% 46%,rgba(202,174,46,.12),rgba(202,174,46,0) 72%),var(--pit)}
+  .hero{padding:56px 0 64px;
+    background:radial-gradient(38% 56% at 27% 40%,rgba(202,174,46,.12),rgba(202,174,46,0) 72%),var(--pit)}
   .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:64px}
   .logo img{width:min(100%,440px)}
   .lede{margin:0;text-align:left}
+  .jump{display:none}
   .menu{columns:3;column-gap:48px}
-  .hours-grid,.visit-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+  .about-grid,.visit-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+  .pull{margin-top:72px}
+  .cater-grid{grid-template-columns:1fr minmax(0,460px);gap:64px;align-items:start}
+  .foot-grid{grid-template-columns:auto 1fr auto;gap:48px;align-items:center}
 }

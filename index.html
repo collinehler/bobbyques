@@ -1,62 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
   BOBBY-QUES WEBSITE
-  Everything people read on the site is in this file: menu and prices, hours,
-  about us, catering and the address. Each section starts with a short note.
+  Everything people read on the site is in this file: menu and prices, hours, about us,
+  catering and the address. Each section starts with a short note in CAPITALS.
 
-  To make a change, find the section, change only the words or numbers,
-  then save (on GitHub, tap "Commit changes"). The live site updates a few minutes later.
+  To make a change from your phone: open this file on github.com, tap the pencil (Edit),
+  change only the words or numbers, then tap "Commit changes". The site updates a few minutes later.
 
-  The look (colors, fonts, spacing) is in styles.css.
-  The logo and the little icons are in the images folder.
-  The open/closed sign is in script.js. It reads the Hours table below,
-  so hours only need to change in one place.
+  Hours are typed in ONE place: the HOURS table near the bottom. The open/closed sign at the top
+  and the hours Google reads are built from that table automatically.
+
+  The look (colors, fonts, spacing) is in styles.css. The open/closed sign and the catering
+  form are in script.js. The logo and icons are in the images folder.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Keeps search engines away while this is a preview. Remove this line when the site goes live. -->
+<!-- PREVIEW: keeps search engines away while this is a preview. Delete this line on launch day. -->
 <meta name="robots" content="noindex">
 <title>Bobby-Ques | BBQ and catering in Waterloo, Iowa</title>
-<meta name="description" content="Brisket, ribs, pulled pork, pork belly and wings off the smoker at 506 Argyle St in Waterloo. Catering for any event, any size.">
+<meta name="description" content="Southern barbecue at 506 Argyle St in Waterloo, Iowa: brisket, ribs, pulled pork, pork belly and wings off the smoker. Catering for any size group.">
+<!-- LINK PREVIEW: what shows when someone texts or posts a link to the site.
+     On launch day, change collinehler.github.io/bobbyques to eatbobbyques.com below. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bobby-Ques | BBQ in Waterloo, Iowa">
+<meta property="og:description" content="Southern barbecue on Argyle Street in Waterloo. Real smoke. Real flavor.">
+<meta property="og:image" content="https://collinehler.github.io/bobbyques/images/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="images/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="images/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<!-- FOR GOOGLE: the business details in a format search engines read.
+     Hours get added automatically from the Hours table, so don't type them here. -->
+<script type="application/ld+json" id="business-data">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Bobby-Ques",
+  "servesCuisine": "Barbecue",
+  "telephone": "+1-319-261-9700",
+  "email": "eatbobbyques@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "506 Argyle St",
+    "addressLocality": "Waterloo",
+    "addressRegion": "IA",
+    "postalCode": "50703",
+    "addressCountry": "US"
+  },
+  "acceptsReservations": false,
+  "sameAs": ["https://www.facebook.com/eatbobbyques", "https://www.instagram.com/eatbobbyques/"]
+}
+</script>
 </head>
 <body>
-<div class="concept">Preview for Bobby-Ques by Collin Ehler. This site isn't live yet.</div>
+<a class="skip" href="#menu">Skip to the menu</a>
 
-<!-- TOP OF THE PAGE: logo, phone number and the open/closed sign -->
-<header class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <!-- LOGO: the picture is the file images/logo.png.
-           To change it, upload a new picture to the images folder with the same name. -->
-      <h1 class="logo"><img src="images/logo.png" alt="Bobby-Ques. Real smoke. Real flavor." width="960" height="903" fetchpriority="high"></h1>
-    </div>
-    <div>
-      <p class="lede">Brisket, ribs, pulled pork, pork belly and wings off the smoker on Argyle Street in Waterloo. Come hungry and stay a while.</p>
-      <div class="sign" id="sign" aria-live="polite">
-        <div class="status">
-          <span class="lamp" aria-hidden="true"></span>
-          <div>
-            <p class="status-title" id="status-title">Hours</p>
-            <p class="status-detail" id="status-detail">See our hours below</p>
-          </div>
-        </div>
-        <p class="sign-hours">We close early if we sell out. Updates on <a href="https://www.facebook.com/eatbobbyques">Facebook</a> and <a href="https://www.instagram.com/eatbobbyques/">Instagram</a>.</p>
-      </div>
-      <div class="actions">
-        <a class="btn btn-gold" href="tel:+13192619700">Call to order (319) 261-9700</a>
-        <a class="btn btn-line" href="https://www.google.com/maps/search/?api=1&amp;query=506%20Argyle%20St%2C%20Waterloo%2C%20IA%2050703">Get directions</a>
-      </div>
-    </div>
+<!-- PREVIEW BANNER: delete this line on launch day. -->
+<aside class="concept" aria-label="Preview notice">Preview for Bobby-Ques by Collin Ehler. This site isn't live yet.</aside>
+
+<!-- TOP BAR: stays at the top of the screen while people scroll. -->
+<header class="bar">
+  <div class="wrap bar-row">
+    <a class="bar-home" href="#top" aria-label="Bobby-Ques, back to the top"><img src="images/emblem.png" alt="" width="47" height="40"><span>Bobby-Ques</span></a>
+    <nav class="bar-nav" aria-label="Sections">
+      <a href="#menu">Menu</a>
+      <a href="#catering">Catering</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <a class="bar-call" href="tel:+13192619700" aria-label="Call Bobby-Ques"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg><span>Call</span></a>
   </div>
 </header>
 
-<main>
+<main id="top">
+  <!-- NOTICE: for a holiday closing or news, type a short line between the tags, like:
+       <p class="notice" id="notice">Closed Saturday, Nov 28. See you Sunday!</p>
+       Leave it empty and it stays hidden. -->
+  <p class="notice" id="notice"></p>
+
+  <!-- TOP OF THE PAGE: logo, open/closed sign, call and directions -->
+  <section class="hero" aria-label="Bobby-Ques">
+    <div class="wrap hero-grid">
+      <div>
+        <!-- LOGO: the picture is the file images/logo.png.
+             To change it, upload a new picture to the images folder with the same name. -->
+        <h1 class="logo"><img src="images/logo.png" alt="Bobby-Ques. Real smoke. Real flavor." width="960" height="903" fetchpriority="high"></h1>
+      </div>
+      <div>
+        <p class="lede">Southern barbecue on Argyle Street in Waterloo. Brisket, ribs, pulled pork, pork belly and wings off the smoker. Come hungry and stay a while.</p>
+        <div class="sign" id="sign" aria-live="polite">
+          <div class="status">
+            <span class="lamp" aria-hidden="true"></span>
+            <div>
+              <p class="status-title" id="status-title">Hours</p>
+              <p class="status-detail" id="status-detail">See our hours below</p>
+            </div>
+          </div>
+          <p class="sign-week" id="sign-week" hidden></p>
+          <p class="sign-hours">We close early if we sell out. Updates on <a href="https://www.facebook.com/eatbobbyques">Facebook</a> and <a href="https://www.instagram.com/eatbobbyques/">Instagram</a>.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-gold" href="tel:+13192619700">Call to order (319) 261-9700</a>
+          <a class="btn btn-line" href="https://www.google.com/maps/search/?api=1&amp;query=Bobby-Ques%2C%20506%20Argyle%20St%2C%20Waterloo%2C%20IA%2050703">Get directions</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT PEOPLE SAY -->
+    <figure class="wrap praise">
+      <blockquote><p>&ldquo;Not only great barbecue, but a great man.&rdquo;</p></blockquote>
+      <figcaption>Pitmaster Thyron Mathews, in <a href="https://www.bbqcritic.com/restaurants/review-bobby-ques-grand-opening-waterloo-iowa">BBQ Critic's grand-opening review</a></figcaption>
+    </figure>
+  </section>
+
   <!-- MENU
        To change a price, change the number between <b> and </b>.
        To change a name, change the words between <span> and </span>.
@@ -65,9 +125,17 @@
   <section class="board" id="menu" aria-labelledby="menu-h">
     <div class="wrap">
       <h2 id="menu-h">Menu</h2>
+      <nav class="jump" aria-label="Menu sections">
+        <a href="#combos">Combos</a>
+        <a href="#sandwiches">Sandwiches and tacos</a>
+        <a href="#a-la-carte">A la carte</a>
+        <a href="#family-feast">Family feast</a>
+        <a href="#sides">Sides</a>
+        <a href="#dessert">Dessert and drinks</a>
+      </nav>
       <div class="menu">
-        <div class="group">
-          <h3>Combos</h3>
+        <div class="group" id="combos">
+          <h3><span>Combos</span></h3>
           <p class="note">Every combo comes with 2 sides and cornbread.</p>
           <ul>
             <li><span>1 meat combo</span><b>$17</b></li>
@@ -75,8 +143,8 @@
           </ul>
           <p class="note">Pick from pulled pork, ribs, pork belly, smoked wings or brisket (+$3).</p>
         </div>
-        <div class="group">
-          <h3>Sandwiches and tacos</h3>
+        <div class="group" id="sandwiches">
+          <h3><span>Sandwiches and tacos</span></h3>
           <ul>
             <li><span>Pulled pork sandwich</span><b>$12</b></li>
             <li><span>Brisket sandwich</span><b>$17</b></li>
@@ -87,8 +155,8 @@
           </ul>
           <p class="note">Add fries for $3.</p>
         </div>
-        <div class="group">
-          <h3>A la carte</h3>
+        <div class="group" id="a-la-carte">
+          <h3><span>A la carte</span></h3>
           <ul>
             <li><span>Brisket</span><b>½ lb $17 <i>1 lb $32</i></b></li>
             <li><span>Pork belly</span><b>½ lb $15 <i>1 lb $28</i></b></li>
@@ -99,16 +167,16 @@
             <li><span>Fried wings</span><b>6 for $9 <i>12 for $17</i></b></li>
           </ul>
         </div>
-        <div class="group">
-          <h3>Family feast</h3>
+        <div class="group" id="family-feast">
+          <h3><span>Family feast</span></h3>
           <ul>
             <li><span>Value Pack <small>1 lb pulled pork, ½ rack ribs, 6 smoked wings, 2 large sides, 4 cornbread</small></span><b>$65</b></li>
             <li><span>Premium Pack <small>1 lb brisket, 1 lb pulled pork, full rack ribs, 12 smoked wings, 3 large sides, 6 cornbread</small></span><b>$135</b></li>
             <li><span>Sampler Platter <small>Brisket, pulled pork, pork belly, ribs and smoked wings. All meat, no substitutions.</small></span><b>$45</b></li>
           </ul>
         </div>
-        <div class="group">
-          <h3>Sides</h3>
+        <div class="group" id="sides">
+          <h3><span>Sides</span></h3>
           <ul>
             <li><span>Regular</span><b>$4</b></li>
             <li><span>Large</span><b>$7</b></li>
@@ -116,8 +184,8 @@
           </ul>
           <p class="note">Mac and cheese, baked beans, green beans, coleslaw, potato salad or french fries.</p>
         </div>
-        <div class="group">
-          <h3>Dessert and drinks</h3>
+        <div class="group" id="dessert">
+          <h3><span>Dessert and drinks</span></h3>
           <ul>
             <li><span>Banana pudding</span><b>$5</b></li>
             <li><span>Cheesecake squares</span><b>$2.75</b></li>
@@ -131,21 +199,96 @@
   </section>
 
   <!-- ABOUT US: each <p> ... </p> is one paragraph. -->
-  <section class="dark about" id="about" aria-labelledby="about-h">
-    <div class="wrap">
-      <h2 id="about-h">About us</h2>
-      <p>Bobby is originally from Florida and has been cooking for people since he was 14.</p>
-      <p>Bobby-Ques started as catering. When the pandemic hit, Bobby cooked meals and left them on people's doorsteps, no contact needed. Now Bobby-Ques has a home on Argyle Street in Waterloo, where you can pull up a chair and stay a while.</p>
+  <section class="about" id="about" aria-labelledby="about-h">
+    <div class="wrap about-grid">
+      <div>
+        <h2 id="about-h">About us</h2>
+        <p>Bobby is originally from Florida and has been cooking for people since he was 14.</p>
+        <p>Bobby-Ques started as catering. When the pandemic hit, Bobby cooked meals and left them on people's doorsteps, no contact needed. Now Bobby-Ques has a home on Argyle Street in Waterloo, where you can pull up a chair and stay a while.</p>
+      </div>
+      <figure class="pull">
+        <blockquote><p>&ldquo;For me, it's about family, it's about community.&rdquo;</p></blockquote>
+        <figcaption>Robert &ldquo;Bobby&rdquo; Welch, owner</figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="dark" id="hours" aria-labelledby="hours-h">
-    <div class="wrap hours-grid">
+  <!-- CATERING
+       The form opens the customer's email app with their answers filled in, addressed to the
+       email in data-email="..." below. To send requests somewhere else, change that email. -->
+  <section class="cater" id="catering" aria-labelledby="cater-h">
+    <div class="wrap cater-grid">
       <div>
-        <h2 id="hours-h">Hours</h2>
-        <!-- HOURS
-             The open/closed sign at the top of the page reads this table,
-             so this is the only place hours need to change.
+        <h2 id="cater-h">Let us cater your next event</h2>
+        <p>Bobby-Ques got its start catering and vending. We cater any size group, from a small get-together to 500 people and beyond. Tell us your date, headcount and what you'd like, and we'll give you a price.</p>
+        <p class="cater-strong">Book at least 72 hours ahead.</p>
+        <ul class="events">
+          <li>Corporate catering</li><li>Weddings</li><li>Birthdays</li><li>Festivals</li>
+          <li>Family reunions</li><li>Baby showers</li><li class="any">Any event, any size</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-dark" href="tel:+13192619700">Call about catering</a>
+        </div>
+      </div>
+      <form class="cater-form" id="cater-form" data-email="eatbobbyques@gmail.com">
+        <h3>Request catering</h3>
+        <p class="form-help">Fill this out and it opens an email to Bobby with everything filled in. Just hit send.</p>
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input id="c-name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-phone">Phone</label>
+            <input id="c-phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="c-email">Email <span>(optional)</span></label>
+            <input id="c-email" type="email" autocomplete="email">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-date">Event date</label>
+            <input id="c-date" type="date" required>
+          </div>
+          <div class="field">
+            <label for="c-people">How many people</label>
+            <input id="c-people" type="number" inputmode="numeric" min="1" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-where">Where <span>(optional)</span></label>
+          <input id="c-where" type="text" placeholder="Town or venue">
+        </div>
+        <div class="field">
+          <label for="c-what">What you'd like <span>(optional)</span></label>
+          <textarea id="c-what" rows="3" placeholder="Meats, sides, anything else"></textarea>
+        </div>
+        <button class="btn btn-dark" type="submit">Send request</button>
+        <p class="form-help">Rather talk? Call <a href="tel:+13192619700">(319) 261-9700</a>. If no email opens, write to <a href="mailto:eatbobbyques@gmail.com">eatbobbyques@gmail.com</a>.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- VISIT: address, directions, how ordering works and hours -->
+
+  <section class="visit" id="visit" aria-labelledby="visit-h">
+    <div class="wrap visit-grid">
+      <div>
+        <h2 id="visit-h">Come hungry</h2>
+        <p class="addr">506 Argyle St<br>Waterloo, Iowa 50703</p>
+        <div class="actions">
+          <a class="btn btn-gold" href="https://www.google.com/maps/search/?api=1&amp;query=Bobby-Ques%2C%20506%20Argyle%20St%2C%20Waterloo%2C%20IA%2050703">Get directions</a>
+          <a class="btn btn-line" href="tel:+13192619700">Call (319) 261-9700</a>
+        </div>
+        <p class="tip">Order at the counter and we'll hand you a buzzer that goes off when your food is ready.</p>
+        <p class="tip">There are a few tables inside, and a lot of folks take it to go.</p>
+      </div>
+      <div>
+        <h3 class="hours-h">Hours</h3>
+        <!-- HOURS: the one place hours are typed.
+             The open/closed sign at the top and the hours Google reads come from this table.
              Write times like "11 AM to 6 PM", "Noon to 8 PM" or "4 PM to midnight".
              For days off, write "Closed". To add a day, copy a whole <tr> line. -->
         <table class="hours" id="hours-table">
@@ -157,51 +300,24 @@
         </table>
         <p class="hours-note">We close early if we sell out. Check <a href="https://www.facebook.com/eatbobbyques">Facebook</a> or <a href="https://www.instagram.com/eatbobbyques/">Instagram</a> before you head over.</p>
       </div>
-      <blockquote class="quote">
-        <p>&ldquo;Not only great barbecue, but a great man.&rdquo;</p>
-        <footer>Pitmaster Thyron Mathews, quoted in <a href="https://www.bbqcritic.com/restaurants/review-bobby-ques-grand-opening-waterloo-iowa">BBQ Critic's grand-opening review</a></footer>
-      </blockquote>
-    </div>
-  </section>
-
-  <!-- CATERING -->
-  <section class="cater" aria-labelledby="cater-h">
-    <div class="wrap">
-      <h2 id="cater-h">Let us cater your next event</h2>
-      <p>Bobby-Ques got its start catering and vending. We cater any size group, from a small get-together to 500 people and beyond. Book at least 72 hours ahead, tell us your date, headcount and what you'd like, and we'll give you a price.</p>
-      <ul class="events">
-        <li>Corporate catering</li><li>Weddings</li><li>Birthdays</li><li>Festivals</li>
-        <li>Family reunions</li><li>Baby showers</li><li class="any">Any event, any size</li>
-      </ul>
-      <div class="actions">
-        <a class="btn btn-dark" href="tel:+13192619700">Call about catering</a>
-        <a class="btn btn-line" href="mailto:eatbobbyques@gmail.com?subject=Catering%20request">Email eatbobbyques@gmail.com</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADDRESS AND DIRECTIONS -->
-  <section class="dark visit" aria-labelledby="visit-h">
-    <div class="wrap visit-grid">
-      <div>
-        <h2 id="visit-h">Come hungry</h2>
-        <p class="addr">506 Argyle St<br>Waterloo, Iowa 50703</p>
-        <div class="actions">
-          <a class="btn btn-line" href="https://www.google.com/maps/search/?api=1&amp;query=506%20Argyle%20St%2C%20Waterloo%2C%20IA%2050703">Open in Maps</a>
-        </div>
-      </div>
-      <div>
-        <p>Order at the counter and we'll hand you a buzzer that goes off when your food is ready.</p>
-        <p>There are a few tables inside, and a lot of folks take it to go.</p>
-      </div>
     </div>
   </section>
 </main>
 
 <footer class="foot">
-  <div class="wrap row">
-    <span>Bobby-Ques, 506 Argyle St, Waterloo, Iowa</span>
-    <span>Follow @eatbobbyques on <a href="https://www.instagram.com/eatbobbyques/">Instagram</a> and <a href="https://www.facebook.com/eatbobbyques">Facebook</a></span>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <img src="images/emblem.png" alt="" width="47" height="40">
+      <div>
+        <p class="foot-name">Bobby-Ques</p>
+        <p>Real smoke. Real flavor.</p>
+      </div>
+    </div>
+    <div>
+      <p>506 Argyle St, Waterloo, Iowa 50703</p>
+      <p><a href="tel:+13192619700">(319) 261-9700</a> &middot; <a href="mailto:eatbobbyques@gmail.com">eatbobbyques@gmail.com</a></p>
+    </div>
+    <p>Follow @eatbobbyques on <a href="https://www.instagram.com/eatbobbyques/">Instagram</a> and <a href="https://www.facebook.com/eatbobbyques">Facebook</a></p>
   </div>
 </footer>
 
