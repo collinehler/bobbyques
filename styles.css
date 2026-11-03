@@ -82,7 +82,15 @@ img,svg{display:block;max-width:100%}
 .menu li b i{display:block;font-style:normal}
 .note{margin:10px 0 0;font-size:15.5px;color:var(--ash)}
 .group .note:first-of-type{margin:0 0 6px}
-.menu-note{margin:40px 0 0;font-weight:600;color:var(--bone)}
+/* On wider screens the menu sections flow down columns, like a menu board, so there are no big gaps */
+@media (min-width:600px){
+  .menu{display:block;columns:2;column-gap:40px}
+  .group{break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;margin-bottom:40px}
+}
+.pay{margin-top:36px;padding-top:24px;border-top:1px solid rgba(181,167,156,.25)}
+.pay-title{margin:0;font-weight:600;color:var(--bone)}
+.pay-list{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:12px 0 0;padding:0}
+.pay-list li{padding:7px 13px;border:1px solid rgba(247,243,236,.3);border-radius:8px;background:rgba(255,255,255,.04);font-weight:600;font-size:15px}
 
 /* dark sections */
 .dark{padding:72px 0}
@@ -123,7 +131,11 @@ img,svg{display:block;max-width:100%}
 .foot{padding:34px 0 46px;border-top:1px solid rgba(181,167,156,.2);color:var(--ash);font-size:15px}
 h1,h2{text-wrap:balance}
 .foot a{color:var(--gold-hi)}
-.foot .row{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+.foot .row{display:flex;flex-wrap:wrap;gap:14px 22px;justify-content:space-between;align-items:center}
+.social{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+@media (max-width:599px){.social > span{flex-basis:100%}}
+.social-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid rgba(202,174,46,.6);border-radius:22px;font-weight:600;text-decoration:none}
+.social-btn:hover{border-color:var(--gold-hi)}
 
 @media (min-width:820px){
   :root{--gut:40px}
@@ -132,6 +144,6 @@ h1,h2{text-wrap:balance}
   .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:64px}
   .logo img{width:min(100%,440px)}
   .lede{margin:0;text-align:left}
-  .menu{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:48px;row-gap:44px}
+  .menu{columns:3;column-gap:48px}
   .hours-grid,.visit-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start}
 }
